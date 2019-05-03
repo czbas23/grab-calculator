@@ -45,19 +45,28 @@ $shipping = isset($options['s']) ? (float) $options['s'] : 0;
 
 $divide_shipping = round($shipping / $count, 2);
 
-$hr = str_repeat('-', 85) . "\n";
+$pad = 25;
+$hr = "\n" . str_repeat('-', 90) . "\n";
 print $hr;
-print "# Order \t\t\t $count\n";
-print "# Total price \t\t\t $total_price\n";
-print "# Discount \t\t\t $discount\n";
-print "# Shipping \t\t\t $shipping\n";
-print "# Shipping per order \t\t $divide_shipping\n";
+print str_pad("# Order", $pad, " ") . "$count\n";
+print str_pad("# Total price", $pad, " ") . "$total_price\n";
+print str_pad("# Discount", $pad, " ") . "$discount\n";
+print str_pad("# Shipping", $pad, " ") . "$shipping\n";
+print str_pad("# Shipping per order", $pad, " ") . "$divide_shipping";
+print $hr;
+print str_pad("# NAME", $pad, " ");
+print str_pad("# Price", $pad, " ");
+print str_pad("# Discount", $pad, " ");
+print str_pad("# Balance", $pad, " ");
 print $hr;
 foreach ($order as $item) {
   list($name, $price, $sum_price) = getPrice($item);
   $cal_discount = round(($sum_price / $total_price * $discount), 2);
   $balance = number_format($sum_price - $cal_discount + $divide_shipping, 2);
-  print "# $name\t\tPrice $sum_price\t\tDiscount " . number_format($cal_discount, 2) . "\t\tBalance $balance\n";
+  print str_pad("$name", $pad, " ");
+  print str_pad("$sum_price", $pad, " ");
+  print str_pad(number_format($cal_discount, 2), $pad, " ");
+  print "$balance";
   print $hr;
 }
 ?>

@@ -1,8 +1,24 @@
 <?php
-// Exemple: php grab_calculator.php -o 100,70,40,50,60,80,60,60,60 -d 125 -s 10
-// Exemple: php grab_calculator.php -o Bas/100+20,70+10,40,50,60,80,60,60,60 -d 125 -s 10
 
-$options = getopt("o:d:s:");
+$options = getopt("o:d:s:h", ['help']);
+
+if (isset($options['h']) || isset($options['help'])) {
+  print "Usage: php grab_calculator.php [options] [-o] <string> [-d] <number> [-s] <int>\n";
+  print "";
+  print "    -o \t Order. Use , for splite order.\n";
+  print "       \t Use / for separate between name and price or add price only.\n";
+  print "       \t Use + for separate price.\n";
+  print "    -d \t Discount.\n";
+  print "    -s \t Shipping.\n\n";
+  print "Exemple: php grab_calculator.php -o 100,70,40,50,60,80,60,60,60 -d 125 -s 10\n";
+  print "         php grab_calculator.php -o Bas/100+20,70+10,40,50,60,80,60,60,60 -d 125 -s 10\n";
+  exit;
+}
+
+if (!isset($options['o'])) {
+  print "Please enter option -o";
+  exit;
+}
 
 function getPrice($item) {
   $explode_price = explode('/', $item);
@@ -24,8 +40,8 @@ $total_price = array_reduce($order, function($carry, $item) {
   $carry += $sum_price;
   return $carry;
 });
-$discount = (float) $options['d'];
-$shipping = (float) $options['s'];
+$discount = isset($options['d']) ? (float) $options['d'] : 0;
+$shipping = isset($options['s']) ? (float) $options['s'] : 0;
 
 $divide_shipping = round($shipping / $count, 2);
 
@@ -33,6 +49,7 @@ $hr = str_repeat('-', 85) . "\n";
 print $hr;
 print "# Order \t\t\t $count\n";
 print "# Total price \t\t\t $total_price\n";
+print "# Discount \t\t\t $discount\n";
 print "# Shipping \t\t\t $shipping\n";
 print "# Shipping per order \t\t $divide_shipping\n";
 print $hr;

@@ -1,8 +1,8 @@
 <?php
-// Exemple: php grab_calculator.php -p 100,70,40,50,60,80,60,60,60 -d 125 -s 10
-// Exemple: php grab_calculator.php -p Bas/100+20,70+10,40,50,60,80,60,60,60 -d 125 -s 10
+// Exemple: php grab_calculator.php -o 100,70,40,50,60,80,60,60,60 -d 125 -s 10
+// Exemple: php grab_calculator.php -o Bas/100+20,70+10,40,50,60,80,60,60,60 -d 125 -s 10
 
-$options = getopt("d:p:s:c:");
+$options = getopt("d:o:s:c:");
 
 function getPrice($item) {
   $explode_price = explode('/', $item);
@@ -17,9 +17,9 @@ function getPrice($item) {
   return [$name, $price, $sum_price];
 }
 
-$prices = explode(',', $options['p']);
-$count = count($prices);
-$total_price = array_reduce($prices, function($carry, $item) {
+$order = explode(',', $options['o']);
+$count = count($order);
+$total_price = array_reduce($order, function($carry, $item) {
   list($name, $price, $sum_price) = getPrice($item);
   $carry += $sum_price;
   return $carry;
@@ -36,7 +36,7 @@ print "# Total price $total_price\n";
 print "# Shipping $shipping\n";
 print "# Shipping divide $divide_shipping\n";
 print $hr;
-foreach ($prices as $item) {
+foreach ($order as $item) {
   list($name, $price, $sum_price) = getPrice($item);
   $cal_discount = round(($sum_price / $total_price * $discount), 2);
   $balance = number_format($sum_price - $cal_discount + $divide_shipping, 2);

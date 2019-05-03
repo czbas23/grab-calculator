@@ -1,9 +1,8 @@
 <?php
 if (isset($_POST['order'])) {
   $order =  $_POST['order'];
-  $discount =  isset($_POST['discount']) ? $_POST['discount'] : 0;
-  $shipping =  isset($_POST['shipping']) ? $_POST['shipping'] : 0;
-  // $output = shell_exec("php grab_calculator.php -o 100+20,70+15,40,50+5,60,80,60,60,60 -d 125 -s 10 --json");
+  $discount =  isset($_POST['discount']) ? (float) $_POST['discount'] : 0;
+  $shipping =  isset($_POST['shipping']) ? (int) $_POST['shipping'] : 0;
   $output = shell_exec("php grab_calculator.php -o $order -d 125 -s $shipping --json");
   $output = json_decode($output, true);
 } else {
@@ -11,7 +10,6 @@ if (isset($_POST['order'])) {
   $discount = '';
   $shipping = '';
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -36,13 +34,6 @@ if (isset($_POST['order'])) {
       margin: 1.5rem 0;
     }
   </style>
-  <script>
-    function handleCalculator() {
-      var order = document.getElementById('order').value;
-      var discount = document.getElementById('discount').value;
-      var shipping = document.getElementById('shipping').value;
-    }
-  </script>
 </head>
 <body>
   <div class="wrapper">
@@ -51,15 +42,15 @@ if (isset($_POST['order'])) {
       <table class="table-calculator">
         <tr>
           <td style="text-align: right;"><label for="order">Order : </label></td>
-          <td><input type="text" id="order" name="order" value="<?php echo $order; ?>"></td>
+          <td><input type="text" id="order" name="order" value="<?php echo htmlspecialchars($order); ?>"></td>
         </tr>
         <tr>
           <td style="text-align: right;"><label for="discount">Discount : </label></td>
-          <td><input type="number" id="discount" name="discount" value="<?php echo $discount; ?>"></td>
+          <td><input type="number" id="discount" name="discount" value="<?php echo htmlspecialchars($discount); ?>"></td>
         </tr>
         <tr>
           <td style="text-align: right;"><label for="shipping">Shipping : </label></td>
-          <td><input type="number" id="shipping" name="shipping" value="<?php echo $shipping; ?>"></td>
+          <td><input type="number" id="shipping" name="shipping" value="<?php echo htmlspecialchars($shipping); ?>"></td>
         </tr>
         <tr>
           <td></td>
@@ -67,6 +58,12 @@ if (isset($_POST['order'])) {
         </tr>
       </table>
     </form>
+    <div>
+      <h3>Example</h3>
+      <p>Order : 100+15,70,40,Nan/50+5,60,Bob/80,60,"Jon Snow"/60,60</p>
+      <p>Discount : 125</p>
+      <p>Shipping : 10</p>
+    </div>
     <hr>
     <?php if (isset($output) && is_array($output)) : ?>
       <table width="100%" border="1" style="margin-bottom: 15px;">

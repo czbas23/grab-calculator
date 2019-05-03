@@ -31,10 +31,10 @@ $divide_shipping = round($shipping / $count, 2);
 
 $hr = str_repeat('-', 85) . "\n";
 print $hr;
-print "# Person $count\n";
-print "# Total price $total_price\n";
-print "# Shipping $shipping\n";
-print "# Shipping divide $divide_shipping\n";
+print "# Order \t\t\t $count\n";
+print "# Total price \t\t\t $total_price\n";
+print "# Shipping \t\t\t $shipping\n";
+print "# Shipping per order \t\t $divide_shipping\n";
 print $hr;
 foreach ($order as $item) {
   list($name, $price, $sum_price) = getPrice($item);

@@ -2,7 +2,7 @@
 // Exemple: php grab_calculator.php -o 100,70,40,50,60,80,60,60,60 -d 125 -s 10
 // Exemple: php grab_calculator.php -o Bas/100+20,70+10,40,50,60,80,60,60,60 -d 125 -s 10
 
-$options = getopt("d:o:s:c:");
+$options = getopt("o:d:s:");
 
 function getPrice($item) {
   $explode_price = explode('/', $item);

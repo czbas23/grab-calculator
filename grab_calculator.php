@@ -10,8 +10,8 @@ if (isset($options['h']) || isset($options['help'])) {
   print "       \t Use + for separate price.\n";
   print "    -d \t Discount.\n";
   print "    -s \t Shipping.\n\n";
-  print "Exemple: php grab_calculator.php -o 100,70,40,50,60,80,60,60,60 -d 125 -s 10\n";
-  print "         php grab_calculator.php -o Bas/100+20,70+10,40,50,60,80,60,60,60 -d 125 -s 10\n";
+  print "Exemple: php grab_calculator.php -o 100+20,70+15,40,50+5,60,80,60,60,60 -d 125 -s 10\n";
+  print "         php grab_calculator.php -o Bob/100+10,Judy/70,\"John Doe\"/40,50,60+20,80,60,60,60 -d 125 -s 10\n";
   exit;
 }
 
